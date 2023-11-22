@@ -46,6 +46,11 @@ class BaseModel:
         dictionary.update(self.__dict__)
         dictionary.update({'__class__':
                           (str(type(self)).split('.')[-1]).split('\'')[0]})
-        dictionary['created_at'] = self.created_at.isoformat()
-        dictionary['updated_at'] = self.updated_at.isoformat()
+        # Check if 'created_at' is present in the instance
+        if 'created_at' in dictionary:
+            dictionary['created_at'] = self.created_at.isoformat()
+        
+        # Check if 'updated_at' is present in the instance
+        if 'updated_at' in dictionary:
+            dictionary['updated_at'] = self.updated_at.isoformat()
         return dictionary

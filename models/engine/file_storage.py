@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This module defines a class to manage file storage for hbnb clone"""
 import json
+from datetime import datetime
 
 
 class FileStorage:
@@ -23,9 +24,14 @@ class FileStorage:
         """Saves storage dictionary to file"""
         with open(FileStorage.__file_path, 'w') as f:
             temp = {}
-            temp.update(FileStorage.__objects)
-            for key, val in temp.items():
+            for key, val in FileStorage.__objects.items():
                 temp[key] = val.to_dict()
+
+                # Ensure datetime objects are serialized to string
+                for date_key, date_value in temp[key].items():
+                    if isinstance(date_value, datetime):
+                        temp[key][date_key] = date_value.isoformat()
+
             json.dump(temp, f)
 
     def reload(self):
@@ -39,17 +45,21 @@ class FileStorage:
         from models.review import Review
 
         classes = {
-                    'BaseModel': BaseModel, 'User': User, 'Place': Place,
-                    'State': State, 'City': City, 'Amenity': Amenity,
+                    'BaseModel': BaseModel, 'User': User,
+                    'Place': Place,
+                    'State': State,
+                    'City': City,
+                    'Amenity': Amenity,
                     'Review': Review
                   }
         try:
-            temp = {}
+            # temp = {}
             with open(FileStorage.__file_path, 'r') as f:
                 temp = json.load(f)
                 for key, val in temp.items():
-                    self.all()[key] = classes[val['__class__']](**val)
-        except FileNotFoundError:
+                    class_name = val['__class__']
+                    self.all()[key] = classes[class_name](**val)
+        except (FileNotFoundError, json.JSONDecodeError):
             pass
 
     def delete(self, obj=None):
