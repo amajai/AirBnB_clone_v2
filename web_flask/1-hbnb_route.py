@@ -15,12 +15,14 @@ def hbnb_route():
     """
     return "HBNB"
 
+
 @app.route("/")
 def hello_route():
     """
     return page with message
     """
     return "Hello HBNB!"
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000)
