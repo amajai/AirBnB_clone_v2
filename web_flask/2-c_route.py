@@ -8,6 +8,15 @@ app = Flask(__name__)
 app.url_map.strict_slashes = False
 
 
+@app.route("/c/<text>")
+def c_route(text):
+    """
+    display "C" followed by the value of the text variable
+    """
+    q = ' '.join(text.split('_'))
+    return "C " + q
+
+
 @app.route("/hbnb")
 def hbnb_route():
     """
