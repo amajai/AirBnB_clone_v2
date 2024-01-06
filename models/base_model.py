@@ -49,7 +49,7 @@ class BaseModel:
         # Check if 'created_at' is present in the instance
         if 'created_at' in dictionary:
             dictionary['created_at'] = self.created_at.isoformat()
-        
+
         # Check if 'updated_at' is present in the instance
         if 'updated_at' in dictionary:
             dictionary['updated_at'] = self.updated_at.isoformat()
