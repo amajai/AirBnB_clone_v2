@@ -63,6 +63,13 @@ class TestHBNBCommand(unittest.TestCase):
             output = f.getvalue().strip()
         self.assertEqual(output, "")
 
+    def test_create_no_param(self):
+        """ Ensure that model is created without parameters"""
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create State")
+            output = f.getvalue().strip()
+        self.assertTrue(output)
+
     @patch('sys.stdout', new_callable=StringIO)
     def test_do_create(self, mock_stdout):
         """Test the do_create method"""
